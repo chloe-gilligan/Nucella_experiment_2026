@@ -1,0 +1,65 @@
+---
+title: "Nucella_Measurements_Current_Risk_2026"
+author: "Chloé Gilligan"
+date: "2026-08-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(readr)
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(lme4)
+library(lmerTest)
+library(car)
+library(emmeans)
+library(ggplot2)
+library(janitor)
+```
+
+```{r load-data}
+path <- "~/Desktop/Repositories/Nucella_experiment_2026/data/Buoyant_weighing/Current_Risk_Initial_Measurements_Data_2026.csv"
+
+raw <- read_csv(path, show_col_types = FALSE) %>%
+  clean_names()
+
+names(raw)
+```
+
+```{r rename-columns}
+# Keep only the columns we actually need: the ID columns (by position,
+# since they're always the first 4 columns) plus length/width/shell
+# thickness (matched by name, so it doesn't matter exactly how the
+# messy weight/time columns get named by clean_names()).
+
+data <- raw %>%
+  rename(
+    rep          = 1,   # sample ID, e.g. "YY6"
+    snail_number = 2,   # 1, 2, or 3 within the rep
+    tag_number   = 3,
+    tag_color    = 4
+  ) %>%
+  rename_with(~"length_mm", contains("length")) %>%
+  rename_with(~"width_mm", contains("width")) %>%
+  rename_with(~"shell_thickness", contains("shell")) %>%
+  rename_with(~"notes", contains("note")) %>%
+  select(rep, snail_number, tag_number, tag_color,
+         length_mm, width_mm, shell_thickness, notes)
+
+head(data)
+```
+
+
+```{r}
+raw <- read_csv(path, show_col_types = FALSE)
+head(raw, 3)
+```
+
+

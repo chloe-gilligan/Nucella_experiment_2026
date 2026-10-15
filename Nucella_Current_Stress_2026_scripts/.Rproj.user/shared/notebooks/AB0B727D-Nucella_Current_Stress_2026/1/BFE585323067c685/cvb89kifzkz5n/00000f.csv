@@ -1,0 +1,2 @@
+"0","raw <- read_csv(path, show_col_types = FALSE)"
+"0","head(raw, 3)"

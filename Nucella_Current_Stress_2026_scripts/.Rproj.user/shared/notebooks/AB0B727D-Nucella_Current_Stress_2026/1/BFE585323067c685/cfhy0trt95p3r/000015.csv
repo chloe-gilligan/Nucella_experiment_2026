@@ -1,0 +1,25 @@
+"0","# Keep only the columns we actually need: the ID columns (by position,"
+"0","# since they're always the first 4 columns) plus length/width/shell"
+"0","# thickness (matched by name, so it doesn't matter exactly how the"
+"0","# messy weight/time columns get named by clean_names())."
+"0",""
+"0","data <- raw %>%"
+"0","  rename("
+"0","    rep          = 1,   # sample ID, e.g. ""YY6"""
+"0","    snail_number = 2,   # 1, 2, or 3 within the rep"
+"0","    tag_number   = 3,"
+"0","    tag_color    = 4"
+"0","  ) %>%"
+"0","  rename_with(~""length_mm"", contains(""length"")) %>%"
+"0","  rename_with(~""width_mm"", contains(""width"")) %>%"
+"0","  rename_with(~""shell_thickness"", contains(""shell"")) %>%"
+"0","  rename_with(~""notes"", contains(""note"")) %>%"
+"0","  select(rep, snail_number, tag_number, tag_color,"
+"0","         length_mm, width_mm, shell_thickness, notes)"
+"1","[1m[33mError[39m in `rename()`:[22m
+[33m![39m Names must be unique.
+[31m✖[39m These names are duplicated:
+  * ""tag_number"" at locations 3 and 5.
+  * ""tag_color"" at locations 4 and 6.
+[90mRun `]8;;x-r-run:rlang::last_trace()rlang::last_trace()]8;;` to see where the error occurred.[39m
+"
